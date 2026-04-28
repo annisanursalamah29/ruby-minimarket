@@ -9,15 +9,16 @@ Rails.application.routes.draw do
 
   # Resource Products
   get "/produk", to: "products#table", as: "products_table"
-  post "/products", to: "products#store", as: "products_store"
-  put "/products/:id", to: "products#update", as: "products_update"
-  delete "/products/:id", to: "products#destroy", as: "products_destroy"
+  post "/produk", to: "products#store", as: "products_store"
+  put "/produk/:id", to: "products#update", as: "products_update"
+  delete "/produk/:id", to: "products#destroy", as: "products_destroy"
 
   get "/kasir", to: "sales#new", as: "sales_new"
   post "/sales", to: "sales#create"
   get "/riwayat", to: "sales#history", as: "sales_history"
   delete "/riwayat/:id", to: "sales#destroy", as: "sales_destroy"
-  
+get "/riwayat/:id", to: "sales#show", as: "sales_detail"
+
   #root 'inertia_example#index'
   get 'inertia-example', to: 'inertia_example#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
