@@ -5,8 +5,6 @@ class ProductsController < ApplicationController
   def table
     @categories = Category.all
     
-    # Gunakan .page(params[:page]).per(10) untuk pagination
-    # Default per_page bisa disesuaikan, di sini saya set 10
     query = Product.includes(:category)
                    .order(created_at: :desc)
                    .page(params[:page])
@@ -21,7 +19,7 @@ class ProductsController < ApplicationController
     end
 
     @low_stock_count = Product.where("stock < ?", 10).count
-
+    
     render inertia: 'Products/Stock', props: { 
       # Kirim objek pagination lengkap
       products: {

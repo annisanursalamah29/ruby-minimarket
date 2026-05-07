@@ -2,15 +2,16 @@ default: &default
   adapter: postgresql 
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %> 
-  username: postgres 
-  password:  
+  username: annisanursalamah 
+  password: selaluceria
   host: localhost
   port: 5432
 
 development:
   <<: *default
   database: ruby_minimarket_development
-
+  pool: 35
+  
 test:
   <<: *default
   database: ruby_minimarket_test

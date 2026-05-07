@@ -1,28 +1,13 @@
-// To see this message, add the following to the `<head>` section in your
-// views/layouts/application.html.erb
-//
-//    <%= vite_client_tag %>
-//    <%= vite_javascript_tag 'application' %>
-console.log('Vite ⚡️ Rails')
+import { createConsumer } from "@anycable/web";
+import { start } from "@anycable/turbo-stream";
 
-// If using a TypeScript entrypoint file:
-//     <%= vite_typescript_tag 'application' %>
-//
-// If you want to use .jsx or .tsx, add the extension:
-//     <%= vite_javascript_tag 'application.jsx' %>
+// Inisialisasi consumer ke server AnyCable-Go (port 8080)
+const consumer = createConsumer("wss://rubyminimarket.test:8080/cable");
+// Gunakan 'start' sebagai pengganti 'subscribeToTurboStreams'
+// Ini akan secara otomatis menangani elemen <turbo-cable-stream-source>
+start(consumer);
 
-console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
+console.log("Vite ⚡️ Rails with AnyCable");
 
-// Example: Load Rails libraries in Vite.
-//
-// import * as Turbo from '@hotwired/turbo'
-// Turbo.start()
-//
-// import ActiveStorage from '@rails/activestorage'
-// ActiveStorage.start()
-//
-// // Import all channels.
-// const channels = import.meta.glob('./**/*_channel.js', { eager: true })
-
-// Example: Import a stylesheet in app/frontend/index.css
-// import '~/index.css'
+// Optional: Simpan di window untuk debugging
+window.App = { cable: consumer };

@@ -3,11 +3,14 @@
   "type": "module",
   "devDependencies": {
     "vite": "^8.0.10",
-    "vite-plugin-ruby": "^5.2.0"
+    "vite-plugin-ruby": "^5.2.2"
   },
   "dependencies": {
+    "@anycable/turbo-stream": "^0.8.1",
+    "@anycable/web": "^1.1.1",
     "@inertiajs/react": "^3.0.3",
     "@inertiajs/vite": "^3.0.3",
+    "@rails/actioncable": "^8.1.300",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.4",

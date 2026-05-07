@@ -1,3 +1,5 @@
-
+web: bundle exec rails server -p 3000
 vite: bin/vite dev
-web: bin/rails s
+sidekiq: bundle exec sidekiq
+rpc: bundle exec anycable
+ws: ./bin/anycable-go --port=8080
