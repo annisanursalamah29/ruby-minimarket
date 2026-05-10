@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import Navbar from "../../Layouts/Navbar";
 import ProductForm from "./ProductForm";
 import ProductTable from "./ProductTable";
-import Pagination from "./Pagination";
+import Pagination from "../../Layouts/Pagination";
 
 export default function Stock({
   products,
@@ -12,6 +12,7 @@ export default function Stock({
   filters,
   lowStockCount,
 }) {
+  const barcodeRef = useRef(null); // Tambahkan ini
   const [search, setSearch] = useState(filters.barcode || "");
   const [editingId, setEditingId] = useState(null);
   const [values, setValues] = useState({
@@ -61,17 +62,26 @@ export default function Stock({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      products.data.some(
-        (p) => p.barcode === values.barcode && p.id !== editingId,
-      )
-    ) {
-      return Swal.fire({
-        icon: "warning",
-        title: "Duplicate Barcode",
-        text: "Barcode already exists!",
-      });
-    }
+    const isDuplicate = products.data.some(
+    (p) => p.barcode === values.barcode && p.id !== editingId,
+  );
+
+  if (isDuplicate) {
+    // 1. Munculkan peringatan
+    Swal.fire({
+      icon: "warning",
+      title: "Duplicate Barcode",
+      text: "Barcode already exists!",
+      returnFocus: false 
+    }).then(() => {
+      // Fokus dijalankan HANYA setelah user menekan OK
+      if (barcodeRef.current) {
+        barcodeRef.current.focus();
+      }
+    });
+    
+    return; // Berhenti di sini
+  }
 
     const options = {
       onSuccess: () => {
@@ -142,6 +152,7 @@ export default function Stock({
             editingId={editingId}
             onReset={resetForm}
             categories={categories}
+            barcodeRef={barcodeRef}
           />
 
           <ProductTable
@@ -150,17 +161,20 @@ export default function Stock({
               setEditingId(p.id);
               setValues(p);
               window.scrollTo({ top: 0, behavior: "smooth" });
+              setTimeout(() => barcodeRef.current?.focus(), 100);
             }}
             onDelete={handleDelete}
+            editingId={editingId}
           />
 
           <Pagination
-            products={products}
+            meta={products} // Mengirim objek pagination lengkap
+            label="produk"  // Label kustom untuk teks ringkasan
             onPageChange={(page) =>
               router.get(
                 "/produk",
                 { ...filters, page },
-                { preserveState: true },
+                { preserveState: true, preserveScroll: true }
               )
             }
           />

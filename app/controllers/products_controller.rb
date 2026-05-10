@@ -5,11 +5,10 @@ class ProductsController < ApplicationController
   def table
     @categories = Category.all
     
-    query = Product.includes(:category)
-                   .order(created_at: :desc)
-                   .page(params[:page])
-                   .per(10)
+    # 1. Mulai dengan query dasar (Base Query)
+    query = Product.includes(:category).order(created_at: :desc)
     
+    # 2. Terapkan Filter (sebelum paginasi agar total_count akurat)
     if params[:barcode].present?
       query = query.where("barcode LIKE ?", "%#{params[:barcode]}%")
     end
@@ -18,19 +17,21 @@ class ProductsController < ApplicationController
       query = query.where(category_id: params[:category_id])
     end
 
-    @low_stock_count = Product.where("stock < ?", 10).count
+    # 3. Terapkan Paginasi di akhir
+    paginated_query = query.page(params[:page]).per(1) #
+
+    @low_stock_count = Product.where("stock < ?", 1).count #
     
     render inertia: 'Products/Stock', props: { 
-      # Kirim objek pagination lengkap
       products: {
-        data: query.as_json(include: :category),
-        current_page: query.current_page,
-        total_pages: query.total_pages,
-        total_count: query.total_count,
-        is_first_page: query.first_page?,
-        is_last_page: query.last_page?,
-        next_page: query.next_page,
-        prev_page: query.prev_page
+        data: paginated_query.as_json(include: :category), #
+        current_page: paginated_query.current_page,        #
+        total_pages: paginated_query.total_pages,          #
+        total_count: query.count,                          # Total data setelah difilter
+        is_first_page: paginated_query.first_page?,        #
+        is_last_page: paginated_query.last_page?,          #
+        next_page: paginated_query.next_page,              #
+        prev_page: paginated_query.prev_page               #
       },
       categories: @categories,
       filters: params.slice(:barcode, :category_id, :page),

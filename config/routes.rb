@@ -11,6 +11,22 @@ Rails.application.routes.draw do
 
   get "/dashboard", to: "dashboard#index", as: "dashboard"
 
+  # Master Data routes
+  get "/master-data/suppliers", to: "master_data#suppliers", as: "master_data_suppliers"
+  get "/master-data/customers", to: "master_data#customers", as: "master_data_customers"
+  get "/master-data/warehouses", to: "master_data#warehouses", as: "master_data_warehouses"
+  get "/master-data/categories", to: "master_data#categories", as: "master_data_categories"
+
+  # ERP routes
+  #get "/penyesuaian-stok", to: "stock_adjustments#index", as: "stock_adjustments"
+
+  resources :categories, path: "/kategori", only: %i[index create update destroy]
+  resources :suppliers, path: "/supplier", only: %i[index create update destroy]
+  resources :customers, path: "/pelanggan", only: %i[index create update destroy]
+  resources :warehouses, path: "/gudang", only: %i[index create update destroy]
+  resources :purchases, path: "/pembelian", only: %i[index new create show update destroy]
+  resources :stock_adjustments, path: "/penyesuaian-stok", only: %i[index new create show update destroy]
+
   # Resource Products
   get "/produk", to: "products#table", as: "products_table"
   post "/produk", to: "products#store", as: "products_store"

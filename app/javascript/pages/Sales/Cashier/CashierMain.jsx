@@ -99,8 +99,8 @@ export default function Cashier({ products: initialProducts }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-200 p-4 md:p-8">
-      <Navbar>
+    <Navbar>
+      <div className="min-h-screen bg-[#0f172a] text-slate-200 p-4 md:p-8">
         <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
             <ProductSearch 
@@ -125,7 +125,6 @@ export default function Cashier({ products: initialProducts }) {
             />
           </div>
         </div>
-      </Navbar>
 
       {/* Modal Input Quantity */}
       {pendingProduct && (
@@ -206,6 +205,7 @@ export default function Cashier({ products: initialProducts }) {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Navbar>
   );
 }

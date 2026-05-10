@@ -1,12 +1,13 @@
 import React from "react";
 
-export default function ProductForm({ values, setValues, onSubmit, editingId, onReset, categories }) {
+export default function ProductForm({ values, setValues, onSubmit, editingId, onReset, categories, barcodeRef }) {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
       <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
         <div className="md:col-span-2">
           <label className="text-xs font-bold text-slate-500 uppercase ml-1">Barcode</label>
           <input
+            ref={barcodeRef}
             type="text"
             value={values.barcode}
             onChange={(e) => setValues({ ...values, barcode: e.target.value })}

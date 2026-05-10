@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function ProductTable({ products, onEdit, onDelete }) {
+// Tambahkan prop editingId di sini
+export default function ProductTable({ products, onEdit, onDelete, editingId }) {
   const getCategoryStyle = (id) => {
     const colors = [
       "bg-blue-100 text-blue-700 border-blue-200",
@@ -53,8 +54,25 @@ export default function ProductTable({ products, onEdit, onDelete }) {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex justify-center gap-4">
-                      <button onClick={() => onEdit(p)} className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase">Edit</button>
-                      <button onClick={() => onDelete(p.id)} className="text-red-500 hover:text-red-700 font-bold text-xs uppercase">Delete</button>
+                      <button 
+                        onClick={() => onEdit(p)} 
+                        className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase"
+                      >
+                        Edit
+                      </button>
+                      
+                      {/* LOGIKA PENCEGAHAN: Tombol Delete didisable dan tampilan disesuaikan saat editingId cocok */}
+                      <button 
+                        onClick={() => onDelete(p.id)} 
+                        disabled={editingId === p.id}
+                        className={`font-bold text-xs uppercase transition-colors ${
+                          editingId === p.id 
+                            ? "text-slate-300 cursor-not-allowed" 
+                            : "text-red-500 hover:text-red-700"
+                        }`}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </td>
                 </tr>
